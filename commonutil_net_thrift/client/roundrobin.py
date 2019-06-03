@@ -4,6 +4,7 @@ Round-robin client
 """
 
 from contextlib import closing
+from threading import Lock
 from typing import Any, Callable, Sequence, Tuple
 import logging
 
@@ -27,6 +28,7 @@ class RoundRobinClient:
 			"_connect_kwds",
 			"_next_server_index",
 			"_client_callables",
+			"_client_lock",
 			"_client",
 			"_transport",
 	)
@@ -49,6 +51,7 @@ class RoundRobinClient:
 		}
 		self._next_server_index = 0
 		self._client_callables = ()
+		self._client_lock = Lock()
 		self._client = None
 		self._transport = None
 
@@ -89,11 +92,13 @@ class RoundRobinClient:
 		while remain_count > 0:
 			remain_count = remain_count - 1
 			try:
-				return invoke_impl_callable(method_ref, *args, **kwds)
+				with self._client_lock:
+					return invoke_impl_callable(method_ref, *args, **kwds)
 			except Exception:
 				_log.exception("invoke (ref=%r) failed (remain-attempt=%r)", method_ref, remain_count)
 				self._reconnect()
-		return invoke_impl_callable(method_ref, *args, **kwds)
+		with self._client_lock:
+			return invoke_impl_callable(method_ref, *args, **kwds)
 
 	def _invoke_by_name_impl(self, method_name, *args, **kwds):
 		if not self._client:
