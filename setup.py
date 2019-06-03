@@ -7,7 +7,7 @@ setup(
 		name="commonutil-net-thrift",
 		version="3.0.1",  # REV-CONSTANT:rev 5d022db7d38f580a850cd995e26a6c2f
 		description="Helper routine for Thrift",
-		py_modules=[
+		packages=[
 				"commonutil_net_thrift",
 				"commonutil_net_thrift.client",
 				"commonutil_net_thrift.connector",
