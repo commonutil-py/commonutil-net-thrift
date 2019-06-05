@@ -26,6 +26,7 @@ class RoundRobinClient:
 			"_connector_callable",
 			"_server_locations",
 			"_connect_kwds",
+			"_expose_exceptions",
 			"_next_server_index",
 			"_client_callables",
 			"_client_lock",
@@ -49,6 +50,7 @@ class RoundRobinClient:
 		self._connect_kwds = {
 				"timeout_seconds": timeout_seconds,
 		}
+		self._expose_exceptions = client_setup.expose_exceptions
 		self._next_server_index = 0
 		self._client_callables = ()
 		self._client_lock = Lock()
@@ -94,8 +96,10 @@ class RoundRobinClient:
 			try:
 				with self._client_lock:
 					return invoke_impl_callable(method_ref, *args, **kwds)
-			except Exception:
-				_log.exception("invoke (ref=%r) failed (remain-attempt=%r)", method_ref, remain_count)
+			except Exception as e:
+				if self._expose_exceptions and isinstance(e, self._expose_exceptions):
+					raise
+				_log.error("invoke (ref=%r) failed (remain-attempt=%r): %r", method_ref, remain_count, e)
 				self._reconnect()
 		with self._client_lock:
 			return invoke_impl_callable(method_ref, *args, **kwds)
