@@ -5,6 +5,6 @@ Exceptions for connectors
 
 
 class ClientCheckException(Exception):
-	""" Failed at client check
-	"""
+	"""Failed at client check"""
+
 	pass

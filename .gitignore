@@ -3,6 +3,7 @@
 *~
 .*.swp
 ._*
+.mypy_cache
 .project
 .pydevproject
 .settings
@@ -15,4 +16,3 @@ rt-sandbox/**
 .rt-deps/**
 *.egg-info/**
 dist/**
-

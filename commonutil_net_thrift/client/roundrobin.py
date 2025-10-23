@@ -22,33 +22,33 @@ class RoundRobinClient:
 	"""
 
 	__slots__ = (
-			"_client_setup",
-			"_connector_callable",
-			"_server_locations",
-			"_connect_kwds",
-			"_expose_exceptions",
-			"_next_server_index",
-			"_client_callables",
-			"_client_lock",
-			"_client",
-			"_transport",
+		"_client_setup",
+		"_connector_callable",
+		"_server_locations",
+		"_connect_kwds",
+		"_expose_exceptions",
+		"_next_server_index",
+		"_client_callables",
+		"_client_lock",
+		"_client",
+		"_transport",
 	)
 
 	def __init__(
-			self,
-			client_setup: ClientSetup,
-			connector_callable: Callable[..., Tuple[Any, TTransportBase]],
-			server_locations: Sequence[Any],
-			timeout_seconds: float = 3,
-			*args,
-			**kwds,
+		self,
+		client_setup: ClientSetup,
+		connector_callable: Callable[..., Tuple[Any, TTransportBase]],
+		server_locations: Sequence[Any],
+		timeout_seconds: float = 3,
+		*args,
+		**kwds,
 	):
 		super().__init__(*args, **kwds)
 		self._client_setup = client_setup
 		self._connector_callable = connector_callable
 		self._server_locations = server_locations
 		self._connect_kwds = {
-				"timeout_seconds": timeout_seconds,
+			"timeout_seconds": timeout_seconds,
 		}
 		self._expose_exceptions = client_setup.expose_exceptions
 		self._next_server_index = 0

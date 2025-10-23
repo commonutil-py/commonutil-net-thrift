@@ -45,6 +45,8 @@ def binary_socket_connector(client_setup: ClientSetup, host: str, port: int, tim
 			client_setup.prepare_callable(client)
 		except Exception as e:
 			_close_transport(transport)
-			_log.exception("caught exception on preparing connected client for use: host=%r, port=%r, exception=%r", host, port, e)
+			_log.exception(
+				"caught exception on preparing connected client for use: host=%r, port=%r, exception=%r", host, port, e
+			)
 			raise
 	return (client, transport)

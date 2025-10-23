@@ -1,0 +1,20 @@
+version = 1
+revision = 3
+requires-python = ">=3.8"
+
+[[package]]
+name = "commonutil-net-thrift"
+version = "3.0.3"
+source = { editable = "." }
+dependencies = [
+    { name = "thrift" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "thrift", specifier = ">=0.22.0" }]
+
+[[package]]
+name = "thrift"
+version = "0.22.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b2/c2/db648cc10dd7d15560f2eafd92a27cd280811924696e0b4a87175fb28c94/thrift-0.22.0.tar.gz", hash = "sha256:42e8276afbd5f54fe1d364858b6877bc5e5a4a5ed69f6a005b94ca4918fe1466", size = 62303, upload-time = "2025-05-23T20:49:33.309Z" }
